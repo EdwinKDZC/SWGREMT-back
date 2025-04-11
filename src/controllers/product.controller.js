@@ -51,6 +51,7 @@ const updateProduct = async (req, res) => {
 
         product.brand = req.body.brand || product.brand;
         product.model = req.body.model || product.model;
+        product.category = req.body.category || product.category;
         product.description = req.body.description || product.description;
         product.price = req.body.price || product.price;
         product.quality = req.body.quality || product.quality;
