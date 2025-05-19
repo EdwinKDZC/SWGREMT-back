@@ -4,6 +4,7 @@ import express from "express";
 import connectDB from "./config/db.js";
 import categoryRoute from "./routes/category.route.js";
 import productRoute from "./routes/product.route.js";
+import supplierRoute from "./routes/supplier.route.js";
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(cors(corsOptions));
 
 app.use("/api/products", productRoute);
 app.use("/api/categories", categoryRoute);
+app.use("/api/suppliers", supplierRoute);
 
 const PORT = process.env.PORT || 3000;
 
