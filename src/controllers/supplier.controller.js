@@ -178,6 +178,20 @@ const importSuppliers = async (req, res) => {
     }
 }
 
+const getCatalogSuppliers = async (req, res) => {
+    try {
+        const { supplierId } = req.params;
+        const catalogSuppliers = await CatalogSupplierModel.find({ supplierId }).populate('supplierId', 'companyName');
+
+        if (!catalogSuppliers || catalogSuppliers.length === 0) {
+            return res.status(404).json({ message: "No suppliers found for this supplier" });
+        }
+
+        res.status(200).json(catalogSuppliers);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
 
 
 export {
@@ -187,5 +201,6 @@ export {
     updateSupplier,
     deleteSupplier,
     uploadSupplierFile,
-    importSuppliers
+    importSuppliers,
+    getCatalogSuppliers
 };

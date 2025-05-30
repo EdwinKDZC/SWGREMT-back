@@ -6,7 +6,8 @@ import {
     updateSupplier,
     deleteSupplier,
     uploadSupplierFile,
-    importSuppliers
+    importSuppliers,
+    getCatalogSuppliers
 } from "../controllers/supplier.controller.js";
 import upload from "../middleware/multer.js"; // Assuming you have a multer middleware set up
 
@@ -19,5 +20,6 @@ router.put("/updateSupplier/:idSupplier", updateSupplier);
 router.delete("/deleteSupplier/:idSupplier", deleteSupplier);
 router.post('/uploadSupplierFile', upload.single('file'), uploadSupplierFile);
 router.post('/importSuppliers', upload.single('file'), importSuppliers);
+router.get('/getCatalogSuppliers/:supplierId', getCatalogSuppliers);
 
 export default router;
