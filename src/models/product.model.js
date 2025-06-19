@@ -13,6 +13,9 @@ const productSchema = new Schema(
         description: { type: String, required: true, trim: true },
         price: { type: Number, required: true, min: 0 },
         quality: { type: String, required: true },
+        image: { type : String }
+           
+        
     },
     { timestamps: true }
 );

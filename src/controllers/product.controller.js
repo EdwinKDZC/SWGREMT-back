@@ -1,4 +1,5 @@
 import ProductModel from "../models/product.model.js";
+import uploadImage from "../helpers/upload.js";
 
 const createProduct = async (req, res) => {
     const product = new ProductModel(req.body);
@@ -11,6 +12,10 @@ const createProduct = async (req, res) => {
         if (existingProduct) {
             return res.status(400).json({ message: "Product already exists" });
         }
+
+        const imageUrl = await uploadImage(req.file);
+
+        product.image = imageUrl;
 
         const savedProduct = await product.save();
         res.status(201).json(savedProduct);
@@ -66,7 +71,7 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
     try {
-        const {productId} = req.params;
+        const { productId } = req.params;
         const product = await ProductModel.findById(productId);
 
         if (!product) {
