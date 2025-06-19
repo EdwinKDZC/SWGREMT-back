@@ -17,7 +17,20 @@ const getCotizarProductos = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}   
+}
+
+const updateCotizarProducto = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const cotizarProducto = await CotizarProductoModel.findByIdAndUpdate(id, req.body, { new: true });
+        if (!cotizarProducto) {
+            return res.status(404).json({ message: "CotizarProducto not found" });
+        }
+        res.status(200).json(cotizarProducto);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
 
 
-export { createCotizarProducto, getCotizarProductos };
+export { createCotizarProducto, getCotizarProductos, updateCotizarProducto };

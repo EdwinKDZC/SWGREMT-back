@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import moment from 'moment-timezone';
 
 const cotizarProductoSchema = new mongoose.Schema({
   companyName: {
@@ -31,6 +32,19 @@ const cotizarProductoSchema = new mongoose.Schema({
       required: false,
     }
   }],
+  fechaCotizacion: {
+    type: Date,
+    default: () => {
+    const now = new Date();
+    // Ajustamos la hora restando 5 horas (UTC-5, Perú)
+    return new Date(now.getTime() - 5 * 60 * 60 * 1000);
+  },
+  },
+  estado: {
+    type: String,
+    // enum: ['pendiente', 'aprobada', 'rechazada'],
+    default: 'Pendiente',
+  },
 
 }, {
   timestamps: true,
