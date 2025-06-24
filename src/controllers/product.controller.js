@@ -16,7 +16,7 @@ const createProduct = async (req, res) => {
         const imageUrl = await uploadImage(req.file);
 
         product.image = imageUrl;
-
+        console.log("producto:", product);
         const savedProduct = await product.save();
         res.status(201).json(savedProduct);
     } catch (error) {
@@ -47,25 +47,34 @@ const getProductById = async (req, res) => {
 
 const updateProduct = async (req, res) => {
     try {
-        const productId = req.params.id;
-        const product = await ProductModel.findById(productId);
-
+        const { idProduct } = req.params;
+        console.log("idProduct:", idProduct);
+        const product = await ProductModel.findById(idProduct);
+        
+        console.log("product:", product);
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
         }
+        console.log("marca:", req.body.brand);
 
-        product.brand = req.body.brand || product.brand;
-        product.model = req.body.model || product.model;
-        product.category = req.body.category || product.category;
-        product.description = req.body.description || product.description;
-        product.price = req.body.price || product.price;
-        product.quality = req.body.quality || product.quality;
+        product.brand = req.body.brand ?? product.brand;
+        product.model = req.body.model ?? product.model;
+        product.category = req.body.category ?? product.category;
+        product.description = req.body.description ?? product.description;
+        product.quality = req.body.quality ?? product.quality;
+        product.pricePurchase = req.body.pricePurchase ?? product.pricePurchase;
+        product.priceSold = req.body.priceSold ?? product.priceSold;
+        if (req.file) {
+            const imageUrl = await uploadImage(req.file);
+            product.image = imageUrl;
+        }
 
         const updatedProduct = await product.save();
+        console.log("updatedProduct:", updatedProduct);
 
         res.status(200).json(updatedProduct);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ error: error.message });
     }
 };
 
