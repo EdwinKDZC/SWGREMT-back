@@ -1,5 +1,6 @@
 import ProductModel from "../models/product.model.js";
 import uploadImage from "../helpers/upload.js";
+import generarCodProducto from "../helpers/generarCodProducto.js";
 
 const createProduct = async (req, res) => {
     const product = new ProductModel(req.body);
@@ -7,11 +8,13 @@ const createProduct = async (req, res) => {
         const existingProduct = await ProductModel.findOne({
             brand: product.brand,
             model: product.model,
+            
         });
 
         if (existingProduct) {
             return res.status(400).json({ message: "Product already exists" });
         }
+        product.codigo = generarCodProducto(product);
 
         const imageUrl = await uploadImage(req.file);
 

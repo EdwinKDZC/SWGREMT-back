@@ -30,7 +30,12 @@ const cotizarProductoSchema = new mongoose.Schema({
     fechaGarantia: {
       type: Date,
       required: false,
-    }
+    },
+    cantidad: {
+      type: Number,
+      required: false,
+    },
+
   }],
   fechaCotizacion: {
     type: Date,

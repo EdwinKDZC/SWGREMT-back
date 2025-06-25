@@ -157,6 +157,7 @@ const importSuppliers = async (req, res) => {
         
         const formattedData = newData.map(item => ({
             supplierId: supplier._id,
+            codigo: item.codigo,
             marca: item.marca,
             modelo: item.modelo,
             tipo: item.tipo,

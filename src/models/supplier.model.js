@@ -21,12 +21,6 @@ const supplierSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // url_file: {
-  //   type:String,
-  //   required: true,
-  // },
-
-
 });
 
 const SupplierModel = mongoose.model('Supplier', supplierSchema);

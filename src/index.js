@@ -6,6 +6,7 @@ import categoryRoute from "./routes/category.route.js";
 import productRoute from "./routes/product.route.js";
 import supplierRoute from "./routes/supplier.route.js";
 import cotizarProductoRoute from "./routes/cotizarProducto.route.js";
+import ordenCompraRoute from "./routes/ordenCompra.route.js";
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use("/api/products", productRoute);
 app.use("/api/categories", categoryRoute);
 app.use("/api/suppliers", supplierRoute);
 app.use("/api/cotizarProductos", cotizarProductoRoute);
+app.use("/api/ordenCompras", ordenCompraRoute);
 
 const PORT = process.env.PORT || 3000;
 

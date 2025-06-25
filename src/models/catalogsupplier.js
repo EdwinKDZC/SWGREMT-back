@@ -6,6 +6,10 @@ const catalogsupplierSchema = new mongoose.Schema({
     ref: 'Supplier',
 },
 
+  codigo: {
+    type: String, 
+    required: false,
+  },
   marca: {
     type: String,
     required: false,
