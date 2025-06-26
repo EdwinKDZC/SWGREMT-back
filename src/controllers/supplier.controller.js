@@ -55,8 +55,8 @@ const getSupplierById = async (req, res) => {
 
 const updateSupplier = async (req, res) => {
     try {
-        const supplierId = req.params.id;
-        const supplier = await SupplierModel.findById(supplierId);
+        const {idSupplier} = req.params;
+        const supplier = await SupplierModel.findById(idSupplier);
 
         if (!supplier) {
             return res.status(404).json({ message: "Supplier not found" });
@@ -149,6 +149,7 @@ const importSuppliers = async (req, res) => {
         }
         
         const {supplierId} = req.body
+        console.log("supplierId:", supplierId);
         const supplier = await SupplierModel.findById(supplierId);
 
         if (!supplier) {
@@ -165,7 +166,11 @@ const importSuppliers = async (req, res) => {
             precio: item.precio,
             fechaGarantia: typeof item.fechaGarantia === 'number' ? new Date((item.fechaGarantia - 25569) * 86400 * 1000) : new Date(item.FechaGarantia) 
         }));
-
+        const existingCatalogSuppliers = await CatalogSupplierModel.find({
+            supplierId: supplier._id});
+        if (existingCatalogSuppliers) {
+            await CatalogSupplierModel.deleteMany({ supplierId: supplier._id });
+        }
         await CatalogSupplierModel.insertMany(formattedData);
         
         

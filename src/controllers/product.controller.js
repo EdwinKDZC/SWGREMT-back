@@ -6,8 +6,10 @@ const createProduct = async (req, res) => {
     const product = new ProductModel(req.body);
     try {
         const existingProduct = await ProductModel.findOne({
+            category: product.category,
             brand: product.brand,
             model: product.model,
+            quality: product.quality,
             
         });
 
@@ -60,6 +62,19 @@ const updateProduct = async (req, res) => {
         }
         console.log("marca:", req.body.brand);
 
+        if( req.body.brand && req.body.model && req.body.category && req.body.quality) {
+            const existingProduct = await ProductModel.findOne({
+                category: req.body.category,
+                brand: req.body.brand,
+                model: req.body.model,
+                quality: req.body.quality,
+            });
+
+            if (existingProduct && existingProduct._id.toString() !== idProduct) {
+                return res.status(400).json({ message: "Product already exists" });
+            }
+        }
+
         product.brand = req.body.brand ?? product.brand;
         product.model = req.body.model ?? product.model;
         product.category = req.body.category ?? product.category;
@@ -77,7 +92,7 @@ const updateProduct = async (req, res) => {
 
         res.status(200).json(updatedProduct);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error("Error updating product:", error);
     }
 };
 
