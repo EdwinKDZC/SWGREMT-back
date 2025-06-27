@@ -93,27 +93,6 @@ const deleteSupplier = async (req, res) => {
     }
 };
 
-// const uploadSupplierFile = async (req, res) => {
-//   try {
-//     const filePath = req.file.path;
-
-//     const result = await cloudinary.uploader.upload(filePath, {
-//       folder: 'suppliers',
-//     });
-
-//     // Eliminar el archivo local
-//     fs.unlinkSync(filePath);
-
-//     res.status(200).json({
-//       message: 'Archivo subido exitosamente',
-//       url: result.secure_url,
-//       public_id: result.public_id,
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Error al subir el archivo', error: error.message });
-//   }
-// };
-
 const uploadSupplierFile = (req, res) => {
     try {
         if (!req.file) {
@@ -134,9 +113,6 @@ const importSuppliers = async (req, res) => {
     try {
         const filePath = req.file.path;
 
-        // const { file } = req;
-        // console.log("Archivo recibido:", file);
-        // const path = file.path.replace(/\/g, "\\");
         const data = await importExcel(filePath);
 
         const newData = [];
@@ -198,7 +174,6 @@ const getCatalogSuppliers = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
-
 
 export {
     createSupplier,

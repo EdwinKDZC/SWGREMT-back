@@ -58,7 +58,7 @@ const updateProduct = async (req, res) => {
         
         console.log("product:", product);
         if (!product) {
-            return res.status(404).json({ message: "Product not found" });
+            return res.status(404).json({ message: "Producto no encontrado" });
         }
         console.log("marca:", req.body.brand);
 
@@ -71,7 +71,7 @@ const updateProduct = async (req, res) => {
             });
 
             if (existingProduct && existingProduct._id.toString() !== idProduct) {
-                return res.status(400).json({ message: "Product already exists" });
+                return res.status(400).json({ message: "Producto ya existe" });
             }
         }
 
