@@ -35,17 +35,16 @@ const updateCotizarProducto = async (req, res) => {
 const getCotizarProductosByPage = async (req, res) => {
     try {
         const { page = 1, limit = 10 } = req.query;
-        const skip = (page - 1) * limit;
         const cotizarProductos = await CotizarProductoModel.find()
-            .skip(skip)
-            .limit(Number(limit))
-            .sort({ createdAt: -1 });
-        
+            .skip((page - 1) * limit)
+            .limit(limit * 1)
+            .sort({ createdAt: -1 }) // Sort by creation date, newest first
+            .exec();
         const total = await CotizarProductoModel.countDocuments();
         res.status(200).json({
             cotizarProductos,
             total,
-            page: Number(page),
+            page,
             totalPages: Math.ceil(total / limit)
         });
     } catch (error) {
