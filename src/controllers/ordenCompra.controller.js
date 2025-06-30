@@ -23,6 +23,26 @@ export const getOrdenesCompra = async (req, res) => {
   }
 };
 
+export const getOrdenCompraByPage = async (req, res) => {
+  try {
+    const { page = 1, limit = 10 } = req.query;
+    const ordenes = await OrdenCompra.find()
+      .skip((page - 1) * limit)
+      .limit(limit * 1)
+      .sort({ createdAt: -1 }) // Sort by creation date, newest first
+      .exec();
+    const total = await OrdenCompra.countDocuments();
+    res.status(200).json({
+      ordenes,
+      total,
+      page: Number(page),
+      totalPages: Math.ceil(total / limit),
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener las órdenes de compra' });
+  }
+}
+
 // Cambiar estado de pago
 export const updateEstadoPago = async (req, res) => {
   try {
