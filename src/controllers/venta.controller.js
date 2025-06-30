@@ -1,9 +1,12 @@
+import generarNumBoleta from "../helpers/generarNumBoleta.js";
 import VentasModel from "../models/venta.model.js";
 import Venta from "../models/venta.model.js";
 
 const registrarVenta = async (req, res) => {
   try {
     const venta = new Venta(req.body);
+    const num = await Venta.countDocuments() + 1; // Auto-increment number based on existing documents
+    venta.numero = generarNumBoleta("B", num);
     await venta.save();
     res.status(201).json({ message: "Venta registrada", venta });
   } catch (error) {
@@ -31,4 +34,17 @@ const getVentasByPage = async (req, res) => {
     }
 }
 
-export { registrarVenta, getVentasByPage };
+const getVentaById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const venta = await VentasModel.findById(id);
+        if (!venta) {
+            return res.status(404).json({ message: 'Venta not found' });
+        }
+        res.status(200).json(venta);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching venta', error });
+    }
+};
+
+export { registrarVenta, getVentasByPage, getVentaById };
