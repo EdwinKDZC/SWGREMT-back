@@ -46,8 +46,6 @@ export const updateEstadoOrden = async (req, res) => {
   try {
     const { idOrdenCompra } = req.params;
     const { estadoOrden } = req.body;
-    console.log('Estado de orden:', estadoOrden);
-    console.log('ID de orden de compra:', idOrdenCompra);
 
     const orden = await OrdenCompra.findById(idOrdenCompra);
     if (!orden) return res.status(404).json({ error: 'Orden no encontrada' });

@@ -47,7 +47,6 @@ const cotizarProductoSchema = new mongoose.Schema({
   },
   estado: {
     type: String,
-    // enum: ['pendiente', 'aprobada', 'rechazada'],
     default: 'Pendiente',
   },
 

@@ -9,9 +9,7 @@ const upload = async (file) => {
     const result = await cloudinary.uploader.upload(fileStr, {
         folder: "products",
     });
-
-
     return result.secure_url
-
 }
+
 export default upload;

@@ -55,7 +55,7 @@ const getSupplierById = async (req, res) => {
 
 const updateSupplier = async (req, res) => {
     try {
-        const {idSupplier} = req.params;
+        const { idSupplier } = req.params;
         const supplier = await SupplierModel.findById(idSupplier);
 
         if (!supplier) {
@@ -67,7 +67,6 @@ const updateSupplier = async (req, res) => {
         supplier.telefono = req.body.telefono || supplier.telefono;
         supplier.direccion = req.body.direccion || supplier.direccion;
         supplier.email = req.body.email || supplier.email;
-
 
         const updatedSupplier = await supplier.save();
 
@@ -85,7 +84,6 @@ const deleteSupplier = async (req, res) => {
         if (!supplier) {
             return res.status(404).json({ message: "Supplier not found" });
         }
-
         await supplier.deleteOne();
         res.status(200).json({ message: "Supplier deleted successfully" });
     } catch (error) {
@@ -98,7 +96,6 @@ const uploadSupplierFile = (req, res) => {
         if (!req.file) {
             return res.status(400).json({ message: 'Archivo no recibido' });
         }
-
         res.status(200).json({
             message: 'Archivo subido correctamente',
             file: req.file.filename,
@@ -123,15 +120,11 @@ const importSuppliers = async (req, res) => {
                 FechaGarantia: new Date((row.FechaGarantia - (25567 + 2)) * 86400 * 1000),
             });
         }
-        
-        const {supplierId} = req.body
-        console.log("supplierId:", supplierId);
+        const { supplierId } = req.body
         const supplier = await SupplierModel.findById(supplierId);
-
         if (!supplier) {
             return res.status(404).json({ message: "Proveedor no encontrado" });
         }
-        
         const formattedData = newData.map(item => ({
             supplierId: supplier._id,
             codigo: item.codigo,
@@ -140,20 +133,16 @@ const importSuppliers = async (req, res) => {
             tipo: item.tipo,
             calidad: item.calidad,
             precio: item.precio,
-            fechaGarantia: typeof item.fechaGarantia === 'number' ? new Date((item.fechaGarantia - 25569) * 86400 * 1000) : new Date(item.FechaGarantia) 
+            fechaGarantia: typeof item.fechaGarantia === 'number' ? new Date((item.fechaGarantia - 25569) * 86400 * 1000) : new Date(item.FechaGarantia)
         }));
         const existingCatalogSuppliers = await CatalogSupplierModel.find({
-            supplierId: supplier._id});
+            supplierId: supplier._id
+        });
         if (existingCatalogSuppliers) {
             await CatalogSupplierModel.deleteMany({ supplierId: supplier._id });
         }
         await CatalogSupplierModel.insertMany(formattedData);
-        
-        
-        
-        console.log("Respuesta", newData);
         fs.unlinkSync(filePath);
-
         res.status(200).json({ message: 'Proveedores importados exitosamente' });
     } catch (error) {
         res.status(500).json({ message: error.message });

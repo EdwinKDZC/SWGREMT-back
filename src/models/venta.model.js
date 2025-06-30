@@ -6,8 +6,6 @@ const ventaSchema = new mongoose.Schema(
     numero: { type: String },
     productos: [
       {
-        // _id: false,
-        // productoId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
         codigo: String,
         brand: String,
         model: String,
@@ -15,11 +13,9 @@ const ventaSchema = new mongoose.Schema(
         quality: String,
         cantidad: Number,
         precio: Number,
-        // subtotal: Number,
       },
     ],
     total: { type: Number},
-    // fecha: { type: Date, default: Date.now },
   },
   { timestamps: true }
 );

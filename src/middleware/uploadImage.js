@@ -10,7 +10,6 @@ const fileFilter = (req, file, cb) => {
         cb(new Error("Solo se permiten imagenes"), false);
     }
 }
-
 const uploadImage = multer({ storage, fileFilter })
 
 export default uploadImage;

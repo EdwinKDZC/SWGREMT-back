@@ -1,4 +1,3 @@
-// models/OrdenCompra.js
 import mongoose from 'mongoose';
 
 const ordenCompraSchema = new mongoose.Schema({
