@@ -1,6 +1,7 @@
 import ProductModel from "../models/product.model.js";
 import uploadImage from "../helpers/upload.js";
 import generarCodProducto from "../helpers/generarCodProducto.js";
+import Product from "../models/product.model.js";
 
 const createProduct = async (req, res) => {
     const product = new ProductModel(req.body);
@@ -112,10 +113,53 @@ const deleteProduct = async (req, res) => {
     }
 };
 
+const reducirStock = async (req, res) => {
+  try {
+    const {codigo,cantidad} = req.body;
+    console.log("codigo:", codigo);
+    console.log("cantidad:", cantidad);
+    const product = await Product.findOne({ codigo: codigo });
+    console.log("product:", product);
+    if (!product) {
+      return res.status(404).json({ error: "Producto no encontrado" });
+    }
+    if (product.stock < cantidad) {
+      return res.status(400).json({ error: "Stock insuficiente" });
+    }
+    product.stock -= cantidad;
+    await product.save();
+    res.status(200).json({ message: "Stock actualizado correctamente" });
+
+    // const productosVendidos = req.body; // Array de productos [{ _id, cantidad }]
+    // console.log("productosVendidos:", productosVendidos);
+
+    // for (const item of productosVendidos) {
+    //   const product = await Product.findById(item._id);
+    //   console.log("product:", product);
+    //   if (!product) continue;
+
+    //   if (product.stock < item.cantidad) {
+    //     return res.status(400).json({
+    //       error: `Stock insuficiente para ${product.brand} ${product.model}`,
+    //     });
+    //   }
+
+    //   product.stock = product.stock- item.cantidad;
+    //   await product.save();
+    // }
+
+    // res.status(200).json({ message: "Stock actualizado correctamente" });
+  } catch (error) {
+    console.error("Error al reducir stock:", error);
+    res.status(500).json({ error: "Error al actualizar el stock" });
+  }
+};
+
 export {
     createProduct,
     getProducts,
     getProductById,
     updateProduct,
     deleteProduct,
+    reducirStock
 };

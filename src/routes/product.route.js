@@ -5,6 +5,7 @@ import {
     getProductById,
     updateProduct,
     deleteProduct,
+    reducirStock,
 } from "../controllers/product.controller.js";
 import uploadImage from "../middleware/uploadImage.js";
 
@@ -16,5 +17,7 @@ router.get("/getProducts", getProducts);
 router.get("/getProductById/:idProduct", getProductById);
 router.put("/updateProduct/:idProduct", uploadImage.single('image'),updateProduct);
 router.delete("/deleteProduct/:idProduct", deleteProduct);
+router.put('/reducirStock', reducirStock);
+
 
 export default router;
