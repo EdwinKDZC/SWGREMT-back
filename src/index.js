@@ -9,6 +9,7 @@ import cotizarProductoRoute from "./routes/cotizarProducto.route.js";
 import ordenCompraRoute from "./routes/ordenCompra.route.js";
 import ventaRoute from "./routes/venta.route.js";
 import boletaRoute from "./routes/boleta.route.js";
+import orderRoute from "./routes/order.route.js";
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use("/api/cotizarProductos", cotizarProductoRoute);
 app.use("/api/ordenCompras", ordenCompraRoute);
 app.use("/api/ventas",ventaRoute)
 app.use("/api/boletas", boletaRoute);
+app.use("/api/orders", orderRoute);
 
 const PORT = process.env.PORT || 3000;
 
